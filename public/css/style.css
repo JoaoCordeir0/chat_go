@@ -2,6 +2,7 @@
 html,
 body {
     height: 100%;
+    overflow-x: hidden;
 }
 
 * {
@@ -130,4 +131,19 @@ button {
 
 #userON {
     font-family: 'Rubik Mono One', sans-serif;
+    margin-left: 15px;
+}
+
+#settings {
+    border-radius: 50px;
+    width: 50px;
+    height: 50px;
+    float: right;
+    margin-right: 10px;
+    margin-top: 10px;
+}
+
+.timeMessage{
+    float:right; 
+    font-size:8pt;
 }
