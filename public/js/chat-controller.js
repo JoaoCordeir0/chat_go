@@ -1,4 +1,8 @@
-var socket = io('https://1d66-2804-431-b740-eacc-8433-2526-7ca4-5128.sa.ngrok.io');
+var socket = io('https://00a5-186-219-149-112.sa.ngrok.io');
+
+var dateNow = new Date();
+var hours = dateNow.getHours();
+var minutes = dateNow.getMinutes();
 
 socket.on('receivedMessage', function(message) {
     renderMessage(message);
@@ -12,14 +16,10 @@ socket.on('previusMessages', function(messages) {
 });
 
 $("#formChat").submit(function(event) {
-    event.preventDefault();
+    event.preventDefault(); 
 
     var user = getCookie('User')
-    var message = $("#inputMessage").val();
-
-    var dateNow = new Date();
-    var hours = dateNow.getHours();
-    var minutes = dateNow.getMinutes();
+    var message = $("#inputMessage").val();    
 
     if (user.length && message.length) {
         var messageObject = {
@@ -57,10 +57,12 @@ function checkUser() {
         $("#formChat").show();
         $("#userON").append(getCookie('User'))
 
+        socket.emit('userLogin', getCookie('User'));
+
         scrollBottom()
     } else {
         $("#setUser").show();
-    }
+    }   
 }
 
 // Resgata os cokies
@@ -100,9 +102,8 @@ function generateColor() {
 }
 
 function renderMessage(message) {
-    $(".messages").append('<div class="message ' + socket.id + '"><strong style="color:' + message.colorChat + ';">' + message.user + '</strong>: ' + message.message + '<span style="float:right;">' + message.time + '</span></div>')
+    $(".messages").append('<div class="message"><img src="img/user.png" width="30px"><strong style="margin-left:5px; color:' + message.colorChat + ';">' + message.user + '</strong>: ' + message.message + '<span class="timeMessage pt-2">' + message.time + '</span></div>')
 }
-
 
 function scrollBottom() {
     $('.messages').animate({
