@@ -1,4 +1,4 @@
-var socket = io('https://00a5-186-219-149-112.sa.ngrok.io');
+var socket = io('http://localhost:3000');
 
 var dateNow = new Date();
 var hours = dateNow.getHours();
@@ -16,10 +16,10 @@ socket.on('previusMessages', function(messages) {
 });
 
 $("#formChat").submit(function(event) {
-    event.preventDefault(); 
+    event.preventDefault();
 
     var user = getCookie('User')
-    var message = $("#inputMessage").val();    
+    var message = $("#inputMessage").val();
 
     if (user.length && message.length) {
         var messageObject = {
@@ -62,7 +62,7 @@ function checkUser() {
         scrollBottom()
     } else {
         $("#setUser").show();
-    }   
+    }
 }
 
 // Resgata os cokies
