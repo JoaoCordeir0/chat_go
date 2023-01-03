@@ -1,29 +1,7 @@
-const express = require('express');
-const path = require('path');
+import { serverHttp } from "./backend/http.js";
 
-const app = express();
-const server = require('http').createServer(app);
-const io = require('socket.io')(server);
+import "./backend/websocket.js"
 
-app.use(express.static(path.join(__dirname, 'public')));
-app.set('views', path.join(__dirname, 'public'));
-app.set('view engine', 'ejs');
-
-app.use('/', (req, res) => {
-    res.render('index.ejs');
-})
-
-let messages = [];
-
-io.on('connection', socket => {
-    console.log('Socket conectado: ' + socket.id);
-
-    socket.emit('previusMessages', messages);
-
-    socket.on('sendMessage', data => {
-        messages.push(data);
-        socket.broadcast.emit('receivedMessage', data);
-    });
-})
-
-server.listen(3000);
+serverHttp.listen(3000, () => {
+    console.log('App is running at port 3000...');
+});

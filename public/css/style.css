@@ -73,6 +73,7 @@ button {
     border-radius: 50px;
     width: 50px;
     height: 50px;
+    min-width: 50px;
 }
 
 .rowMessage {
@@ -88,11 +89,16 @@ button {
 }
 
 .message {
-    margin-bottom: 10px;
+    padding: 5px;
+}
+
+.message a {
+    text-decoration: none;
 }
 
 .message:hover {
     background-color: #ddd;
+    border-radius: 7px;
 }
 
 #inputMessage,
@@ -143,7 +149,24 @@ button {
     margin-top: 10px;
 }
 
-.timeMessage{
-    float:right; 
-    font-size:8pt;
+.timeMessage {
+    float: right;
+    font-size: 8pt;
+}
+
+.exitChat {
+    position: absolute;
+    bottom: 10px;
+    margin: auto;
+    text-align: center;
+    width: 100%;
+}
+
+@media(max-width: 995px) {
+    #sendMessage {
+        margin-right: 30px;
+    }
+    #inputUser {
+        width: 90% !important;
+    }
 }

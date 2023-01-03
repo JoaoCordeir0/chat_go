@@ -1,50 +1,42 @@
-var dateNow = new Date();
-var hours = dateNow.getHours();
-var minutes = dateNow.getMinutes();
+// Renderiza as mensagem na tela
+function renderMessage(message) {
+    $(".messages").append('<div class="message"><img src="img/' + message.imguser + '" width="30px"><strong style="margin-left:5px; color:' + message.colorChat + ';">' + message.user + '</strong>: ' + message.message + '<span class="timeMessage pt-2">' + message.time + '</span></div>')
+}
 
-$("#formChat").submit(function(event) {
-    event.preventDefault();
-
-    var user = getCookie('User')
-    var message = $("#inputMessage").val();
-
-    if (user.length && message.length) {
-        var messageObject = {
-            user: user,
-            message: message,
-            time: hours + ':' + minutes,
-            colorChat: getCookie('ColorChat'),
-        };
-
-        $("#inputMessage").val("");
-
-        renderMessage(messageObject);
-        scrollBottom()
-
-        socket.emit('sendMessage', messageObject);
+// Renderiza as notificações na tela
+function renderNotification(user, action) {
+    switch (action) {
+        case 'newUser':
+            txt = ' entrou no chat';
+            break;
+        case 'exitUser':
+            txt = ' saiu do chat';
+            break;
     }
-});
 
-$("#setUser").submit(function(event) {
-    event.preventDefault();
+    const Toast = Swal.mixin({
+        toast: true,
+        position: 'top-end',
+        showConfirmButton: false,
+        timer: 4000,
+        timerProgressBar: true,
+        didOpen: (toast) => {
+            toast.addEventListener('mouseenter', Swal.stopTimer)
+            toast.addEventListener('mouseleave', Swal.resumeTimer)
+        }
+    })
 
-    var user = $("#inputUser").val();
-
-    if (user.length) {
-        setCookie('User', user, 1)
-        setCookie('ColorChat', generateColor(), 1)
-        window.location.reload(true)
-    }
-});
+    Toast.fire({
+        icon: 'info',
+        title: user.nick + txt
+    })
+}
 
 // Função que pega o usuario ou seta um novo usuario no chat
 function checkUser() {
-
-    if (getCookie('User') != "") {
+    if (getCookie('NickUser') != "") {
         $("#formChat").show();
-        $("#userON").append(getCookie('User'))
-
-        socket.emit('userLogin', getCookie('User'));
+        $("#userON").append(getCookie('NickUser'))
 
         scrollBottom()
     } else {
@@ -88,28 +80,27 @@ function generateColor() {
     return color;
 }
 
-function renderMessage(message) {
-    $(".messages").append('<div class="message"><img src="img/user.png" width="30px"><strong style="margin-left:5px; color:' + message.colorChat + ';">' + message.user + '</strong>: ' + message.message + '<span class="timeMessage pt-2">' + message.time + '</span></div>')
-}
-
+// Deixa o scroll sempre no fim da pagina
 function scrollBottom() {
     $('.messages').animate({
-        scrollTop: 999999
+        scrollTop: 9999999
     }, 100);
 }
 
+// Abre as configurações
 function openSettings() {
     $("#offcanvasSettings").offcanvas('show')
 
-    $("#inputEditUser").attr('value', getCookie('User'))
+    $("#inputEditUser").attr('value', getCookie('NickUser'))
     $("#inputEditUseColor").attr('value', getCookie('ColorChat'))
 }
 
+// Salva as configurações
 function saveSettings() {
     let nick = $("#inputEditUser").val();
     let color = $("#inputEditUseColor").val();
 
-    setCookie('User', nick, 1)
+    setCookie('NickUser', nick, 1)
     setCookie('ColorChat', color, 1)
 
     window.location.reload(true)
