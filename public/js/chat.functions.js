@@ -1,6 +1,12 @@
 // Renderiza as mensagem na tela
 function renderMessage(message) {
-    $(".messages").append('<div class="message"><img src="img/' + message.imguser + '" width="30px"><strong style="margin-left:5px; color:' + message.colorChat + ';">' + message.user + '</strong>: ' + message.message + '<span class="timeMessage pt-2">' + message.time + '</span></div>')
+    $(".messages").append('<div class="msg"><img src="img/avatar/' + message.imguser + '" width="30px"><strong style="margin-left:5px; color:' + message.colorChat + ';">' + message.user + '</strong>: ' + message.message + '<span class="timeMessage pt-2">' + message.time + '</span></div>')
+}
+
+function renderUsers(users) {
+    if (users.nick != getCookie('NickUser')) {
+        $("#connectedUsers").append('<li class="mb-2"> <a href="#" class="sidebar-user usersOn"> <span class="sidebar-user-img"> <picture><source srcset="img/avatar/' + users.avatar + '" type="image/webp"><img id="" src="img/avatar/' + users.avatar + '" alt="User name"></picture> </span> <div class="sidebar-user-info"> <span class="sidebar-user__title">' + users.nick + '<span id="iconOn" class="fas fa-globe"></span> </span> </div> </a> </li>');
+    }
 }
 
 // Renderiza as notificações na tela
@@ -34,13 +40,21 @@ function renderNotification(user, action) {
 
 // Função que pega o usuario ou seta um novo usuario no chat
 function checkUser() {
-    if (getCookie('NickUser') != "") {
-        $("#formChat").show();
-        $("#userON").append(getCookie('NickUser'))
 
-        scrollBottom()
+    if (window.location.pathname == '/Chat') {
+        if (getCookie('NickUser') == "") {
+            window.location.href = "Login";
+            scrollBottom()
+        } else {
+            $("#userON").append(getCookie('NickUser'))
+            $("#source_imgUserOn").attr('srcset', 'img/avatar/' + getCookie('ImgUser'))
+            $("#imgUserOn").attr('src', 'img/avatar/' + getCookie('ImgUser'))
+            scrollBottom()
+        }
     } else {
-        $("#setUser").show();
+        if (getCookie('NickUser') != "") {
+            window.location.href = "Chat";
+        }
     }
 }
 

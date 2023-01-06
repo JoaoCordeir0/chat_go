@@ -1,27 +1,29 @@
 import { io } from "./http.js";
 
-let usersOn = [];
+let users = [];
 let messages = [];
 
 io.on('connection', socket => {
 
-    if (usersOn.length > 0) {
-        console.log(usersOn);
-    }
+    console.clear()
+    console.log(users)
 
     socket.on('newUserConnected', data => {
-        const userInlist = usersOn.find(user => user.nick_user === data.nick)
+        const userInlist = users.find(user => user.nick === data.nick)
 
         if (userInlist) {
             userInlist.socket_id = socket.id;
         } else {
-            usersOn.push({
+            users.push({
                 socket_id: socket.id,
-                nick_user: data.nick,
+                nick: data.nick,
+                avatar: data.avatar,
             });
             socket.broadcast.emit('newUser', data);
         }
     })
+
+    socket.emit('previusUsers', users);
 
     socket.emit('previusMessages', messages);
 
@@ -33,7 +35,11 @@ io.on('connection', socket => {
         socket.broadcast.emit('receivedMessage', data);
     });
 
-    //socket.on("disconnect", () => {
-    //    // code
-    //});
+    socket.on("disconnect", () => {
+        const userExit = users.find(user => user.socket_id === socket.id)
+        users = users.filter((user) => user.socket_id !== socket.id);
+
+        socket.broadcast.emit('disconnectUser', userExit)
+        socket.broadcast.emit('previusUsers', users);
+    });
 })

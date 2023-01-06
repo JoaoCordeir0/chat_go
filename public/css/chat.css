@@ -1,0 +1,203 @@
+html,
+body {
+    height: 100%;
+    overflow-x: hidden;
+    /* overflow-y: hidden; */
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+
+/* width */
+
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+
+/* Track */
+
+ ::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 5px grey;
+    border-radius: 5px;
+}
+
+
+/* Handle */
+
+ ::-webkit-scrollbar-thumb {
+    background: #069;
+    border-radius: 5px;
+}
+
+
+/* Handle on hover */
+
+ ::-webkit-scrollbar-thumb:hover {
+    background: #069;
+}
+
+.darkmode #formChat {
+    color: white !important;
+}
+
+.darkmode #formChat input {
+    color: white !important;
+    background-color: #161624 !important;
+}
+
+#formChat {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+input {
+    padding: 0 20px;
+    font-size: 14px;
+    border: 0;
+    background-color: white;
+}
+
+button {
+    font-size: 14px;
+    background: #069;
+    text-align: center;
+    line-height: 50px;
+    font-weight: bold;
+    color: #FFF;
+    margin-top: 10px;
+    border: 0;
+}
+
+#sendMessage {
+    margin-top: 0px;
+    border-radius: 50px;
+    width: 50px;
+    height: 50px;
+    min-width: 50px;
+}
+
+.rowMessage {
+    width: 100%;
+}
+
+.messages {
+    width: 100%;
+    height: 67vh;
+    margin: 20px 0;
+    padding: 20px;
+    overflow-y: scroll;
+}
+
+.msg {
+    padding: 5px;
+    width: 100%;
+    height: auto;
+}
+
+.message a {
+    text-decoration: none;
+}
+
+.message:hover {
+    background-color: #ddd;
+    border-radius: 7px;
+}
+
+#inputMessage,
+#inputUser {
+    width: 100%;
+    height: 50px;
+    border-bottom: 1px solid #ddd;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+}
+
+#setUser {
+    margin: 50px auto;
+    max-width: 500px;
+}
+
+#inputEditUser,
+#inputEditUseColor {
+    border: 1px solid #ddd;
+    height: 50px;
+    width: 100%;
+}
+
+.offcanvas-body label {
+    height: 50px;
+    padding-top: 12px;
+}
+
+#sendSettins {
+    width: 100px;
+    height: 40px;
+    border-radius: 6px;
+}
+
+#settings {
+    border-radius: 50px;
+    width: 50px;
+    height: 50px;
+    float: right;
+    margin-right: 10px;
+    margin-top: 10px;
+}
+
+.timeMessage {
+    float: right;
+    font-size: 8pt;
+}
+
+.exitChat {
+    position: absolute;
+    bottom: 10px;
+    margin: auto;
+    text-align: center;
+    width: 100%;
+}
+
+#iconOn {
+    color: green;
+    margin-left: 5px;
+}
+
+.hidden #sidebarBtnShow {
+    margin-top: -25px !important;
+    margin-bottom: -20px !important;
+}
+
+.usersOn {
+    background-color: transparent !important;
+}
+
+.sidebar.hidden .sidebar-body .sidebar-user-img {
+    width: 40px;
+    height: 40px;
+    margin-right: 0;
+    margin-top: -8px !important;
+}
+
+@media(max-width: 995px) {
+    #sendMessage {
+        margin-right: 30px;
+    }
+    #inputUser {
+        width: 90% !important;
+    }
+}
+
+@media(max-height: 900px) {
+    .messages {
+        height: 50vh !important;
+    }
+}

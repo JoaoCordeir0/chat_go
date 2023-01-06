@@ -1,3 +1,6 @@
+<!DOCTYPE html>
+<html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -5,91 +8,158 @@
     <title>Chat-GO</title>
     <link rel="icon" href="img/icon.png">
 
+    <!-- Jquery | ajax -->
     <script src="https://code.jquery.com/jquery-3.6.3.js" integrity="sha256-nQLuAZGRRcILA+6dMBOvcRh5Pe310sBpanc6+QBmyVM=" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.5.4/socket.io.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 
+    <!-- Sweetalert -->
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
-    <link rel="stylesheet" href="css/style.css">
-
+    <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css">
-
+    <!-- Bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 
+    <!-- CSS interno -->
+    <link rel="stylesheet" href="./css/style.min.css">
+    <link rel="stylesheet" href="./css/chat.css">
 </head>
 
 <body onload="checkUser()">
-    <div class="row">
-        <div class="col-10">
-            <h3 class="mt-3" id="userON">Bem vindo </h3>
-        </div>
-        <div class="col-2">
-            <button class="mr-0" id="settings" onclick="openSettings()"><i class="fas fa-cog fa-2x"></i></button>
+    <div class="layer"></div>
+    <!-- ! Body -->
+    <a class="skip-link sr-only" href="#skip-target">Skip to content</a>
+    <div class="page-flex">
+        <!-- ! Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-start">
+                <div class="sidebar-head">
+                    <a href="/" class="logo-wrapper" title="Home">
+                        <span class="sr-only">Home</span>
+                        <img src="img/icon.png" width="40px" alt="" style="margin-right: 10px;">
+                        <div class="logo-text">
+                            <span class="logo-title">Chat-GO</span>
+                        </div>
+                    </a>
+                    <button class="sidebar-toggle transparent-btn" id="sidebarBtnShow" title="Menu" type="button">
+                        <span class="sr-only">Toggle menu</span>
+                        <i class="fas fa-bars menu-toggle"></i>                        
+                    </button>
+                </div>
+
+                <div class="sidebar-body">
+                    <ul class="sidebar-body-menu" id="connectedUsers">
+                        <li>
+                            <ul class="cat-sub-menu"> </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="sidebar-footer">
+                <a href="javascript:openSettings()" class="sidebar-user">
+                    <span class="sidebar-user-img">
+                        <picture><source id="source_imgUserOn" srcset="" type="image/webp"><img id="imgUserOn" src="" alt="User name"></picture>
+                    </span>
+                    <div class="sidebar-user-info">
+                        <span class="sidebar-user__title" id="userON"></span>
+                    </div>
+                </a>
+            </div>
+        </aside>
+        <div class="main-wrapper">
+            <!-- ! Main nav -->
+            <nav class="main-nav--bg">
+                <div class="container main-nav">
+                    <div class="main-nav-start">
+                        <div class="search-wrapper">
+                            <i data-feather="search" aria-hidden="true"></i>
+                            <input type="text" placeholder="Enter keywords ..." required>
+                        </div>
+                    </div>
+                    <div class="main-nav-end">
+                        <button class="sidebar-toggle transparent-btn" title="Menu" type="button">
+                            <span class="sr-only">Toggle menu</span>
+                            <i class="fas fa-bars menu-toggle"></i>       
+                        </button>
+                        <button class="theme-switcher gray-circle-btn" type="button" title="Switch theme">
+                            <span class="sr-only">Switch theme</span>
+                            <i class="sun-icon" data-feather="sun" aria-hidden="true"></i>
+                            <i class="moon-icon" data-feather="moon" aria-hidden="true"></i>
+                        </button>
+                    </div>
+                </div>
+            </nav>
+            <!-- ! Main -->
+            <main class="main users chart-page" id="skip-target">
+
+                <div class="container">
+                    <form id="formChat">
+                        <div class="messages"></div>
+                        <div class="row mb-2 rowMessage">
+                            <div class="col-11">
+                                <input type="text" id="inputMessage" name="message" placeholder="Digite sua mensagem">
+                            </div>
+                            <div class="col-1 d-flex justify-content-center">
+                                <button type="submit" id="sendMessage"><i class="fas fa-paper-plane"></i></button>
+                            </div>
+                        </div>
+                    </form>
+
+                    <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasSettings" aria-labelledby="offcanvasRightLabel">
+                        <div class="offcanvas-header">
+                            <h5 id="offcanvasRightLabel">Configurações</h5>
+                            <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                        </div>
+                        <div class="offcanvas-body">
+                            <div class="row">
+                                <div class="col-md-2">
+                                    <label for="inputEditUser">Nick</label>
+                                </div>
+                                <div class="col-md-10">
+                                    <input type="text" id="inputEditUser" name="user" value="">
+                                </div>
+                            </div>
+
+                            <div class="row mt-4">
+                                <div class="col-md-2">
+                                    <label for="inputEditUser">Cor</label>
+                                </div>
+                                <div class="col-md-10">
+                                    <input type="color" id="inputEditUseColor" name="color" value="">
+                                </div>
+                            </div>
+
+                            <div class="row mt-5">
+                                <div class="col-md-12 d-flex justify-content-center">
+                                    <button class="btn btn-primary" type="submit" id="sendSettins" onclick="saveSettings()">Salvar <i class="fas fa-save pl-2"></i></button>
+                                </div>
+                            </div>
+
+                            <div class="exitChat"><button class="btn btn-danger" type="submit" id="exitChat">Sair <i class="fas fa-sign-out pl-2"></i></button></div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+            <!-- ! Footer -->
+            <footer class="footer">
+                <div class="container footer--flex">
+                    <div class="footer-start">
+                        <p>2023 © Chat-GO - Dev. Cordeiro</p>
+                    </div>
+                </div>
+            </footer>
         </div>
     </div>
-    <div class="container">
-        <form id="formChat" style="display: none;">
-            <div class="messages overflow-auto"></div>
-            <div class="row mb-2 rowMessage">
-                <div class="col-11">
-                    <input type="text" id="inputMessage" name="message" placeholder="Digite sua mensagem">
-                </div>
-                <div class="col-1 d-flex justify-content-center">
-                    <button type="submit" id="sendMessage"><i class="fas fa-paper-plane"></i></button>
-                </div>
-            </div>
-        </form>
 
-        <form id="setUser" style="display: none;">
-            <div class="row d-flex justify-content-center">
-                <div class="col-md-10">
-                    <input type="text" id="inputUser" name="user" placeholder="Digite seu nick">
-                </div>
-                <div class="col-md-2 d-flex justify-content-center">
-                    <button type="submit" id="sendMessage"><i class="fas fa-share"></i></button>
-                </div>
-            </div>
-        </form>
-
-        <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasSettings" aria-labelledby="offcanvasRightLabel">
-            <div class="offcanvas-header">
-                <h5 id="offcanvasRightLabel">Configurações</h5>
-                <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-            </div>
-            <div class="offcanvas-body">
-                <div class="row">
-                    <div class="col-md-2">
-                        <label for="inputEditUser">Nick</label>
-                    </div>
-                    <div class="col-md-10">
-                        <input type="text" id="inputEditUser" name="user" value="">
-                    </div>
-                </div>
-
-                <div class="row mt-4">
-                    <div class="col-md-2">
-                        <label for="inputEditUser">Cor</label>
-                    </div>
-                    <div class="col-md-10">
-                        <input type="color" id="inputEditUseColor" name="color" value="">
-                    </div>
-                </div>
-
-                <div class="row mt-5">
-                    <div class="col-md-12 d-flex justify-content-center">
-                        <button type="submit" id="sendSettins" onclick="saveSettings()">Salvar <i class="fas fa-save pl-2"></i></button>
-                    </div>
-                </div>
-
-                <div class="exitChat"><button class="btn btn-danger" type="submit" id="exitChat">Sair <i class="fas fa-sign-out pl-2"></i></button></div>
-            </div>
-        </div>
-
-
-    </div>
-
-    <script src="js/chat.controller.js"></script>
+    <!-- Chat controllers -->
     <script src="js/chat.functions.js"></script>
+    <script src="js/chat.controller.js"></script>
 
+    <!-- Icons library -->
+    <script src="plugins/feather.min.js"></script>
+    <!-- Custom scripts -->
+    <script src="plugins/layout.min.js"></script>
 </body>
+
+</html>

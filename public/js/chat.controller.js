@@ -1,15 +1,27 @@
-var socket = io();
+var socket = io('');
 
-var dateNow = new Date();
-var hours = dateNow.getHours();
-var minutes = dateNow.getMinutes();
+nick = getCookie('NickUser');
+avatar = getCookie('ImgUser');
 
-socket.on('newUser', function(user) {
-    renderNotification(user, 'newUser');
+socket.on('newUser', function(users) {
+    renderUsers(users);
+    renderNotification(users, 'newUser');
+})
+
+socket.on('disconnectUser', user => {
+    renderNotification(user, 'exitUser');
+})
+
+socket.on('previusUsers', function(users) {
+    $("#connectedUsers").html("");
+    for (user of users) {
+        renderUsers(user);
+    }
 })
 
 socket.on('receivedMessage', function(message) {
     renderMessage(message);
+    scrollBottom();
 })
 
 socket.on('previusMessages', function(messages) {
@@ -20,10 +32,10 @@ socket.on('previusMessages', function(messages) {
 });
 
 $(document).ready(function() {
-    var nick = getCookie('NickUser');
     if (nick.length > 0) {
         socket.emit('newUserConnected', {
-            nick
+            nick,
+            avatar,
         })
     }
 });
@@ -31,6 +43,12 @@ $(document).ready(function() {
 $("#formChat").submit(function(event) {
     event.preventDefault();
 
+    let date = new Date();
+    let time = date.toLocaleTimeString("pt-BR", {
+        timeStyle: "short",
+        hour12: false,
+        numberingSystem: "latn"
+    });
     var user = getCookie('NickUser')
     var message = $("#inputMessage").val();
 
@@ -43,7 +61,7 @@ $("#formChat").submit(function(event) {
         var messageObject = {
             user: user,
             message: message,
-            time: hours + ':' + minutes,
+            time: time,
             imguser: getCookie('ImgUser'),
             colorChat: getCookie('ColorChat'),
         };
@@ -62,15 +80,23 @@ $("#setUser").submit(function(event) {
 
     var nick = $("#inputUser").val();
 
-    if (nick.length) {
+    if (nick.length <= 11) {
+        let avatar = 'avatar-' + Math.floor(Math.random() * 5) + '.png';
         setCookie('NickUser', nick, 1)
-        setCookie('ImgUser', 'user.png', 1)
+        setCookie('ImgUser', avatar, 1)
         setCookie('ColorChat', generateColor(), 1)
 
         socket.emit('newUserConnected', {
-            nick
+            nick,
+            avatar,
         })
 
         window.location.reload(true)
+    } else {
+        Swal.fire({
+            icon: 'error',
+            title: 'Opss...',
+            text: 'Seu nick deve conter no máximo 11 caracteres'
+        })
     }
 });
