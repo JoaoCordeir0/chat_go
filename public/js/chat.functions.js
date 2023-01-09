@@ -41,20 +41,16 @@ function renderNotification(user, action) {
 // Função que pega o usuario ou seta um novo usuario no chat
 function checkUser() {
 
-    if (window.location.pathname == '/Chat') {
-        if (getCookie('NickUser') == "") {
-            window.location.href = "Login";
-            scrollBottom()
-        } else {
-            $("#userON").append(getCookie('NickUser'))
-            $("#source_imgUserOn").attr('srcset', 'img/avatar/' + getCookie('ImgUser'))
-            $("#imgUserOn").attr('src', 'img/avatar/' + getCookie('ImgUser'))
-            scrollBottom()
-        }
-    } else {
-        if (getCookie('NickUser') != "") {
-            window.location.href = "Chat";
-        }
+    if (getCookie('NickUser') == "") {
+        $("#content-login").show();
+        $("#content-chat").remove();
+    } else if (getCookie('NickUser') != "") {
+        $("#content-chat").show();
+        $("#content-login").remove();
+        $("#userON").append(getCookie('NickUser'))
+        $("#source_imgUserOn").attr('srcset', 'img/avatar/' + getCookie('ImgUser'))
+        $("#imgUserOn").attr('src', 'img/avatar/' + getCookie('ImgUser'))
+        scrollBottom()
     }
 }
 

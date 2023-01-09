@@ -27,11 +27,21 @@
 </head>
 
 <body onload="checkUser()">
-    <div class="layer"></div>
-    <!-- ! Body -->
-    <a class="skip-link sr-only" href="#skip-target">Skip to content</a>
-    <div class="page-flex">
-        <!-- ! Sidebar -->
+    <main class="page-center" id="content-login" style="display: none;">
+        <article class="sign-up">
+            <h1 class="sign-up__title"><img src="img/icon.png" width="50px" alt=""> Chat-GO</h1>
+            <p class="sign-up__subtitle"><i class="fas fa-terminal"></i> Developed by: Cordeiro <i class="fab fa-free-code-camp"></i></p>
+            <form class="sign-up-form form" action="" method="" id="setUser">
+                <label class="form-label-wrapper">                  
+                  <input class="form-input" type="text" placeholder="Insira seu nick" id="inputUser" name="inputUser" required>
+                </label>
+                <button class="form-btn primary-default-btn transparent-btn">Conectar</button>
+            </form>
+            <i class="fab fa-node"></i>
+        </article>
+    </main>
+
+    <div class="page-flex" id="content-chat" style="display: none;">
         <aside class="sidebar">
             <div class="sidebar-start">
                 <div class="sidebar-head">
@@ -67,8 +77,8 @@
                 </a>
             </div>
         </aside>
+
         <div class="main-wrapper">
-            <!-- ! Main nav -->
             <nav class="main-nav--bg">
                 <div class="container main-nav">
                     <div class="main-nav-start">
@@ -90,9 +100,8 @@
                     </div>
                 </div>
             </nav>
-            <!-- ! Main -->
-            <main class="main users chart-page" id="skip-target">
 
+            <main class="main users chart-page" id="skip-target">
                 <div class="container">
                     <form id="formChat">
                         <div class="messages"></div>
@@ -141,11 +150,11 @@
                     </div>
                 </div>
             </main>
-            <!-- ! Footer -->
+
             <footer class="footer">
                 <div class="container footer--flex">
                     <div class="footer-start">
-                        <p>2023 © Chat-GO - Dev. Cordeiro</p>
+                        <p>2023 © Chat-GO - Developed by: Cordeiro <i class="fas fa-code"></i></p>
                     </div>
                 </div>
             </footer>
