@@ -23,15 +23,6 @@ app.get('/', (req, res) => {
     res.render('chat.ejs');
 });
 
-// app.get('/Login', (req, res) => {
-//     res.render('login.ejs');
-// });
-
-// app.get('/Chat', (req, res) => {
-//     res.render('chat.ejs');
-// });
-// }
-
 // Export server {
 export { serverHttp, io }
 // }
